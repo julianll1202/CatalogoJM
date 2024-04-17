@@ -20,10 +20,13 @@ router.get('/actualizar', function(req, res, next) {
 // CRUD operations
 router.post('/crear', async function(req, res, next) {
   const prodInfo = req.body
+  console.log(prodInfo)
   const product = await addProduct(prodInfo)
   if (product !== 'Product not added')
     res.status(201).send(product);
-});
+  else
+    res.status(400).send();
+  });
 
 router.put('/actualizar', async function(req, res, next) {
   const prodInfo = req.body

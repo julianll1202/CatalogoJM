@@ -26,16 +26,18 @@ export const getProductById = async (id) => {
 
 export const addProduct = async (prodInfo) => {
     try {
+        console.log(prodInfo)
         const product = await prisma.product.create({
             data: {
                 name: prodInfo.name,
                 description: prodInfo.description,
-                price: prodInfo.price,
-                categoryId: prodInfo.category
+                price: Number(prodInfo.price),
+                categoryId: Number(prodInfo.categoryId)
             }
         })
         return product
     } catch (err) {
+        console.log(err)
         return 'Product not added'
     }
 }
