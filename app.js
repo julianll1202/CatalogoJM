@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser'
 import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
 import productsRouter from './routes/products.js'
+import categoriesRouter from './routes/categories.js'
 var app = express();
 
 nunjucks.configure('views', {
@@ -23,6 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/productos', productsRouter);
+app.use('/categorias', categoriesRouter);
+
 
 
 export default app;
