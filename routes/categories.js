@@ -1,5 +1,6 @@
 var express = require('express');
 const { getProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
+const { addCategory, updateCategory, deleteCategory } = require('../controllers/categoryController');
 var router = express.Router();
 
 /* HTML Views */
@@ -19,24 +20,24 @@ router.get('/actualizar', function(req, res, next) {
 
 // CRUD operations
 router.post('/crear', async function(req, res, next) {
-  const prodInfo = req.body
-  const product = await addProduct(prodInfo)
-  if (product !== 'Product not added')
-    res.status(201).send(product);
+  const catInfo = req.body
+  const category = await addCategory(catInfo)
+  if (category !== 'Category not created')
+    res.status(201).send(category);
 });
 
 router.put('/actualizar', async function(req, res, next) {
-  const prodInfo = req.body
-  const product = await updateProduct(prodInfo)
-  if (product !== 'Product not updated')
-    res.status(200).send(product);
+  const catInfo = req.body
+  const category = await updateCategory(catInfo)
+  if (category !== 'Category not updated')
+    res.status(200).send(category);
 });
 
-router.delete('/eliminar', async function(req, res, next) {
-  const prodId = req.params.id
-  const product = await deleteProduct(prodId)
-  if (product !== 'Product not deleted')
-    res.status(201).send(product);
+router.delete('/eliminar/:id', async function(req, res, next) {
+  const catId = req.params.id
+  const category = await deleteCategory(catId)
+  if (category !== 'Category not deleted')
+    res.status(201).send(category);
 });
 
 module.exports = router;
