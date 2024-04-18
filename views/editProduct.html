@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% set title = 'Agregar Producto' %}
+{% set title = 'Editar Producto' %}
 
 {% block content %}
   <!--begin::Subheader-->
@@ -23,7 +23,7 @@
             <!--begin::Header-->
             <div class="card-header border-0 py-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bolder text-dark">Agregar producto</span>
+                    <span class="card-label font-weight-bolder text-dark">Editar producto</span>
                 </h3>
             </div>
             <!--end::Header-->
@@ -32,11 +32,11 @@
                 <div class="card-body py-0">
                     <div class="form-group">
                         <label>Nombre <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Ingresa el nombre">
+                        <input type="text" name="name" value={{ product.name }} id="name" class="form-control" placeholder="Ingresa el nombre">
                     </div>
                     <div class="form-group">
                         <label>Precio<span class="text-danger">*</span></label>
-                        <input type="number" name="price" id="price" class="form-control" placeholder="Ingresa el precio">
+                        <input type="number" name="price" value={{ product.price }} id="price" class="form-control" placeholder="Ingresa el precio">
                     </div>
                     <div class="form-group">
                         <label for="exampleSelect1">Categoría <span class="text-danger">*</span></label>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleTextarea">Descripción<span class="text-danger">*</span></label>
-                        <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                        <textarea class="form-control" name="description" id="description" rows="3">{{ product.description }}</textarea>
                     </div>
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label text-lg-right">Upload File:</label>

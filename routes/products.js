@@ -1,19 +1,24 @@
 var express = require('express');
-const { getProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
+const { getProducts, addProduct, updateProduct, deleteProduct, getProductById } = require('../controllers/productController');
+const { getCategories } = require('../controllers/categoryController');
 var router = express.Router();
 
 /* HTML Views */
 router.get('/', async function(req, res, next) {
   const productos = await getProducts();
-  res.render('catalogue.html', { title: 'Productos' });
+  res.render('catalogue.html', { title: 'Productos', products: productos});
 });
 
-router.get('/agregar', function(req, res, next) {
-  res.render('addProduct.html', { title: 'Agregar producto' });
+router.get('/agregar', async function(req, res, next) {
+  const cats = await getCategories();
+  res.render('addProduct.html', { title: 'Agregar producto', categories: cats });
 });
 
-router.get('/actualizar', function(req, res, next) {
-  res.render('addProduct.html', { title: 'Actualizar producto' });
+router.get('/actualizar/:id', async function(req, res, next) {
+  const prodId = req.params.id;
+  const prod = await getProductById(Number(prodId));
+  const cats = await getCategories();
+  res.render('editProduct.html', { title: 'Actualizar producto',  product: prod, categories: cats});
 });
 
 
@@ -35,7 +40,7 @@ router.put('/actualizar', async function(req, res, next) {
     res.status(200).send(product);
 });
 
-router.delete('/eliminar', async function(req, res, next) {
+router.delete('/eliminar/:id', async function(req, res, next) {
   const prodId = req.params.id
   const product = await deleteProduct(prodId)
   if (product !== 'Product not deleted')
