@@ -60,7 +60,7 @@
                     <div class="form-group row">
                         <div id="images"></div>
                     </div>
-                    <button type="submit" id="sendBtn" class="btn btn-bg-primary">Crear</button>
+                    <button type="submit" id="sendBtn" class="btn btn-bg-primary">Actualizar</button>
                 </div>
             </form>
             <!--end::Body-->
@@ -83,10 +83,11 @@
     sendBtn.addEventListener('click', async () => {
         const form = new FormData(f)
         console.log(form.get('name'));
-        const res = await fetch('/productos/crear', {
-            method: 'POST',
+        const res = await fetch('/productos/actualizar', {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
+                id: "{{ product.id}}",
                 name: name.value,
                 price: price.value,
                 description: description.value,

@@ -57,13 +57,13 @@ export const updateProduct = async (prodInfo) => {
     try {
         const product = await prisma.product.update({
             where: {
-                id: prodInfo.id
+                id: Number(prodInfo.id)
             },
             data: {
                 name: prodInfo.name,
                 description: prodInfo.description,
-                price: prodInfo.price,
-                categoryId: prodInfo.category
+                price: Number(prodInfo.price),
+                categoryId: Number(prodInfo.categoryId)
             }
         })
         return product
