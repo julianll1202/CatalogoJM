@@ -20,10 +20,18 @@ model Product {
   price Decimal
   categoryId Int
   category Category @relation(fields: [categoryId], references: [id])
+  images Image[]
 }
 
 model Category {
   id Int @id @default(autoincrement())
   name String
   products Product[]
+}
+
+model Image {
+  id Int @id @default(autoincrement())
+  url String
+  productId Int
+  product Product @relation(fields: [productId], references: [id])
 }

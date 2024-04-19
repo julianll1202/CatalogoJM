@@ -44,24 +44,12 @@
             <!--begin::Body-->
             <div class="card-body py-0">
                 <div class="row">
-                    <div class="col-sm">
-                        <label for="exampleSelect1">Example select <span class="text-danger">*</span></label>
-                        <select class="form-control" id="exampleSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
-                        </select>
-                    </div>
                     <div class="col-sm ml-10">
-                        <label for="exampleSelect1">Example select <span class="text-danger">*</span></label>
-                        <select class="form-control" id="exampleSelect1">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
+                        <label for="exampleSelect1">Categoría <span class="text-danger">*</span></label>
+                        <select class="form-control" name="categoryId" id="category">
+                            {% for cat in categories %}
+                            <option value={{ cat.id }} {{ "selected" if cat.id === product.categoryId }}>{{ cat.name }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
@@ -83,7 +71,7 @@
                                 <td class="pr-0">
                                     <div class="symbol symbol-50 symbol-light mt-1">
                                         <span class="symbol-label">
-                                            <img src="assets/media/svg/avatars/001-boy.svg" class="h-75 align-self-end" alt="">
+                                            <img src="{{ uploadsURL }}/{{prod.images[0].url}}" class="h-75 align-self-end" alt="">
                                         </span>
                                     </div>
                                 </td>
@@ -111,12 +99,12 @@
                                             <!--end::Svg Icon-->
                                         </span>
                                     </a>
-                                    <buton href="#"  data-toggle="modal" data-target="#exampleModalLong" class="btn btn-icon  btn-light-danger btn-sm">
+                                    <buton href="#"  data-toggle="modal" data-target="#modalDel-{{ prod.id }}" class="btn btn-icon  btn-light-danger btn-sm">
                                         <i class="flaticon2-trash icon-md btn-icon-white"></i>
                                     </button>
                                 </td>
                                 <!-- Modal-->
-                                <div class="modal fade" id="exampleModalLong" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+                                <div class="modal fade" id="modalDel-{{ prod.id }}" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">

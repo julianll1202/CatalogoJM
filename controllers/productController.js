@@ -13,6 +13,11 @@ export const getProducts = async () => {
                     select: {
                         name: true,
                     }
+                },
+                images: {
+                    select: {
+                        url: true
+                    }
                 }
             }
         })
@@ -27,6 +32,21 @@ export const getProductById = async (id) => {
         const product = await prisma.product.findUnique({
             where: {
                 id: id
+            },
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                category: {
+                    select: {
+                        name: true,
+                    }
+                },
+                images: {
+                    select: {
+                        url: true
+                    }
+                }
             }
         })
         return product

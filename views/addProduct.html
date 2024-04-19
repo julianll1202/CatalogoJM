@@ -18,7 +18,7 @@
   <!--end::Subheader-->
   <!--begin::Entry-->
   <div class="row">
-    <div class="col-md-6 ml-10">
+    <div class="col-lg-8 ml-10">
         <div class="card card-custom card-stretch gutter-b">
             <!--begin::Header-->
             <div class="card-header border-0 py-5">
@@ -42,7 +42,7 @@
                         <label for="exampleSelect1">Categoría <span class="text-danger">*</span></label>
                         <select class="form-control" name="categoryId" id="category">
                             {% for cat in categories %}
-                                <option value={{ cat.id }} {{ "selected" if cat.id === product.categoryId }}>{{ cat.name }}</option>
+                            <option value={{ cat.id }} {{ "selected" if cat.id === product.categoryId }}>{{ cat.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -51,16 +51,17 @@
                         <textarea class="form-control" name="description" id="description" rows="3"></textarea>
                     </div>
                     <div class="form-group row">
-                        <label class="col-lg-3 col-form-label text-lg-right">Upload File:</label>
-                        <div class="col-lg-6">
-                            <input type="file" id="file-input" accept="image/png, image/jpeg" onchange="preview()" multiple />
-                            <span class="form-text text-muted">Max file size is 1MB and max number of files is 5.</span><p id="num-of-files">No Files Chosen</p>
-                        </div>
+                        <input type="file" id="file-input" accept="image/png, image/jpeg" onchange="preview()" multiple>
+                        <label class="file-input-label btn btn-bg-light" for="file-input">
+                            <i class="fas fa-upload"></i> &nbsp; Choose A Photo
+                        </label>
                     </div>
+                    <p id="num-of-files">No Files Chosen</p>
                     <div class="form-group row">
                         <div id="images"></div>
                     </div>
-                    <button type="submit" id="sendBtn" class="btn btn-bg-primary">Crear</button>
+                    <script src="/javascripts/imageUpload.js"></script>
+                    <button type="submit" id="sendBtn" class="btn btn-primary mb-10 w-140px font-size-lg">Crear</button>
                 </div>
             </form>
             <!--end::Body-->
@@ -68,9 +69,11 @@
 
     </div>
   </div>
-  <script src="imageUpload.js"></script>
   <script>
     const f = document.getElementById("form");
+    let fileInput = document.getElementById("file-input");
+    let imageContainer = document.getElementById("images");
+    let numOfFiles = document.getElementById("num-of-files");
     const name = document.getElementById('name');
     const description = document.getElementById('description');
     const price = document.getElementById('price');
@@ -81,8 +84,7 @@
     })
 
     sendBtn.addEventListener('click', async () => {
-        const form = new FormData(f)
-        console.log(form.get('name'));
+        const form = new FormData()
         const res = await fetch('/productos/crear', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -94,9 +96,47 @@
             })
         })
         if (res.status === 201) {
-            window.location.href = '/productos';
+            const prod = await res.json()
+            form.append('prodId', prod.id)
+            const files = fileInput.files
+            if (files.length != 0) {
+                for (const single_file of files) {
+                    form.append('image', single_file)
+                }
+            }
+            console.log(res)
+            const res2 = await fetch('/imagenes/crear', {
+                method: 'POST',
+                // headers: { 'Content-Type': 'multipart/form-data'},
+                body: form
+            })
+            if (res2.status === 201) {
+                window.location.href = '/productos';
+            }
         }
     });
+
+
+    function preview(){
+        imageContainer.innerHTML = "";
+        numOfFiles.textContent = `${fileInput.files.length} Files Selected`;
+
+        for(i of fileInput.files){
+            let reader = new FileReader();
+            let figure = document.createElement("figure");
+            let figCap = document.createElement("figcaption");
+            figCap.innerText = i.name;
+            figure.appendChild(figCap);
+            reader.onload=()=>{
+                let img = document.createElement("img");
+                img.classList.add('uploaded');
+                img.setAttribute("src",reader.result);
+                figure.insertBefore(img,figCap);
+            }
+            imageContainer.appendChild(figure);
+            reader.readAsDataURL(i);
+        }
+    }
 
   </script>
   <!--end::Entry-->
