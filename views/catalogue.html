@@ -111,10 +111,30 @@
                                             <!--end::Svg Icon-->
                                         </span>
                                     </a>
-                                    <a href="#" data-toggle="modal" data-target="#exampleModalLong" class="btn btn-icon  btn-light-danger btn-sm">
+                                    <buton href="#"  data-toggle="modal" data-target="#exampleModalLong" class="btn btn-icon  btn-light-danger btn-sm">
                                         <i class="flaticon2-trash icon-md btn-icon-white"></i>
-                                    </a>
+                                    </button>
                                 </td>
+                                <!-- Modal-->
+                                <div class="modal fade" id="exampleModalLong" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">¿Desea eliminar este producto?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <i aria-hidden="true" class="ki ki-close"></i>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                ¿Esta seguro de que desea eliminar este producto? Esta acción no se puede revertir.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                                                <button type="button" id="delete-{{prod.id}}" data-codigo="{{ prod.id }}" onclick="deleteProd(this)" class="btn btn-danger font-weight-bold"><i class="flaticon2-trash icon-md btn-icon-white"></i>Eliminar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -124,32 +144,18 @@
             </div>
             <!--end::Body-->
         </div>
-        <!-- Modal-->
-        <div class="modal fade" id="exampleModalLong" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">¿Desea eliminar este producto?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <i aria-hidden="true" class="ki ki-close"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ¿Esta seguro de que desea eliminar este producto? Esta acción no se puede revertir.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-danger font-weight-bold"><i class="flaticon2-trash icon-md btn-icon-white"></i>Eliminar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
   </div>
   <!--end::Entry-->
   <script>
-    function deleteProd(id) {
-        await fetch(`/productos/eliminar/${id}`, { method: 'DELETE', headers: { 'Content-Type': 'application/json'},})
+    async function deleteProd(element) {
+        const prodId = element.getAttribute("data-codigo")
+        console.log(prodId);
+        await fetch(`/productos/eliminar/${prodId}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json'
+        },});
+        window.location.reload();
     }
   </script>
 {% endblock %}

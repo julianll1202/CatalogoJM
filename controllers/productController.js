@@ -79,6 +79,7 @@ export const deleteProduct = async (id) => {
                 id: id
             }
         })
+        console.log(product)
         return product
     } catch (err) {
         return 'Product not deleted'

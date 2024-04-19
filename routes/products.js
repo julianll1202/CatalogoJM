@@ -42,9 +42,9 @@ router.put('/actualizar', async function(req, res, next) {
 
 router.delete('/eliminar/:id', async function(req, res, next) {
   const prodId = req.params.id
-  const product = await deleteProduct(prodId)
+  const product = await deleteProduct(Number(prodId))
   if (product !== 'Product not deleted')
-    res.status(201).send(product);
+    res.status(200).send(product);
 });
 
 module.exports = router;
