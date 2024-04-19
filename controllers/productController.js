@@ -1,3 +1,5 @@
+import { deleteProductImages } from './imageController'
+
 const { PrismaClient } = require('@prisma/client')
 
 const prisma = new PrismaClient()
@@ -99,9 +101,11 @@ export const deleteProduct = async (id) => {
                 id: id
             }
         })
+        // await deleteProductImages(id)
         console.log(product)
         return product
     } catch (err) {
+        console.log(err)
         return 'Product not deleted'
     }
 }

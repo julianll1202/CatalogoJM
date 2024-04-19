@@ -141,8 +141,8 @@
         console.log(prodId);
         await fetch(`/productos/eliminar/${prodId}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json'
-        },});
+            headers: { 'Content-Type': 'application/json'},
+        });
         window.location.reload();
     }
   </script>

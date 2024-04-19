@@ -39,6 +39,8 @@ router.put('/actualizar', async function(req, res, next) {
   const product = await updateProduct(prodInfo)
   if (product !== 'Product not updated')
     res.status(200).send(product);
+  else
+    res.status(400).send();
 });
 
 router.delete('/eliminar/:id', async function(req, res, next) {
@@ -46,6 +48,8 @@ router.delete('/eliminar/:id', async function(req, res, next) {
   const product = await deleteProduct(Number(prodId))
   if (product !== 'Product not deleted')
     res.status(200).send(product);
+  else
+    res.status(400).send();
 });
 
 module.exports = router;

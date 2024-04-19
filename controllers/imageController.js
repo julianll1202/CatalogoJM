@@ -53,3 +53,17 @@ export const updateImages = async (images) => {
         return 'Images not uploaded'
     }
 }
+
+export const deleteProductImages = async (id) => {
+    try {
+        const images = await prisma.image.deleteMany({
+            where: {
+                productId: id
+            }
+        })
+        return images
+    } catch (err) {
+        console.log(err)
+        return 'Image not deleted'
+    }
+}
