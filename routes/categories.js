@@ -1,20 +1,23 @@
 var express = require('express');
 const { getProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
-const { addCategory, updateCategory, deleteCategory } = require('../controllers/categoryController');
+const { addCategory, updateCategory, deleteCategory, getCategories, getCategoryById } = require('../controllers/categoryController');
 var router = express.Router();
 
 /* HTML Views */
 router.get('/', async function(req, res, next) {
-  const productos = await getProducts();
-  res.render('catalogue.html', { title: 'Productos' });
+  const categories = await getCategories();
+  console.log(categories)
+  res.render('categories.html', { title: 'Productos', categories: categories });
 });
 
 router.get('/agregar', function(req, res, next) {
-  res.render('addProduct.html', { title: 'Agregar producto' });
+  res.render('addCategory.html', { title: 'Agregar categoría' });
 });
 
-router.get('/actualizar', function(req, res, next) {
-  res.render('addProduct.html', { title: 'Actualizar producto' });
+router.get('/actualizar/:id', async function(req, res, next) {
+  const catId = req.params.id;
+  const cat = await getCategoryById(Number(catId));
+  res.render('editCategory.html', { title: 'Actualizar categoría', category: cat});
 });
 
 
@@ -31,13 +34,17 @@ router.put('/actualizar', async function(req, res, next) {
   const category = await updateCategory(catInfo)
   if (category !== 'Category not updated')
     res.status(200).send(category);
+  else
+    res.status(400).send();
 });
 
 router.delete('/eliminar/:id', async function(req, res, next) {
   const catId = req.params.id
-  const category = await deleteCategory(catId)
+  const category = await deleteCategory(Number(catId))
   if (category !== 'Category not deleted')
-    res.status(201).send(category);
+    res.status(200).send(category);
+  else
+    res.status(400).send();
 });
 
 module.exports = router;

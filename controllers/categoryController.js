@@ -4,7 +4,18 @@ const prisma = new PrismaClient()
 
 export const getCategories = async () => {
     try {
-        const categories = await prisma.category.findMany()
+        const categories = await prisma.category.findMany({
+            select: {
+                id: true,
+                name: true,
+                _count: {
+                    select: {
+                        products: true,
+
+                    }
+                }
+            }
+        })
         return categories
     } catch (err) {
         return []
@@ -41,7 +52,7 @@ export const updateCategory = async (catInfo) => {
     try {
         const category = await prisma.category.update({
             where: {
-                id: catInfo.id
+                id: Number(catInfo.id)
             },
             data: {
                 name: catInfo.name,

@@ -19,7 +19,7 @@ model Product {
   description String @db.Text
   price Decimal
   categoryId Int
-  category Category @relation(fields: [categoryId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   images Image[]
 }
 

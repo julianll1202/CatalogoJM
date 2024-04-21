@@ -32,7 +32,7 @@
                 <div class="card-body py-0">
                     <div class="form-group">
                         <label>Nombre <span class="text-danger">*</span></label>
-                        <input type="text" name="name" value={{ product.name }} id="name" class="form-control" placeholder="Ingresa el nombre">
+                        <input type="text" name="name" value="{{ product.name }}" id="name" class="form-control" placeholder="Ingresa el nombre">
                     </div>
                     <div class="form-group">
                         <label>Precio<span class="text-danger">*</span></label>
@@ -93,7 +93,7 @@
     sendBtn.addEventListener('click', async () => {
         const form = new FormData(f)
         console.log(form.get('name'));
-        const res = await fetch('/productos/actualizar', {
+        const res = await fetch('/admin/productos/actualizar', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -111,7 +111,7 @@
                 for (const single_file of files) {
                     form.append('image', single_file)
                 }
-                const res2 = await fetch('/imagenes/actualizar', {
+                const res2 = await fetch('/admin/imagenes/actualizar', {
                     method: 'PUT',
                     body: form
                 })
@@ -119,7 +119,7 @@
 
                 }
             } else {
-                window.location.href = '/productos';
+                window.location.href = '/admin/productos';
             }
         }
     });

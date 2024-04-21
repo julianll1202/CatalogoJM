@@ -85,7 +85,7 @@
 
     sendBtn.addEventListener('click', async () => {
         const form = new FormData()
-        const res = await fetch('/productos/crear', {
+        const res = await fetch('/admin/productos/crear', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -105,13 +105,12 @@
                 }
             }
             console.log(res)
-            const res2 = await fetch('/imagenes/crear', {
+            const res2 = await fetch('/admin/imagenes/crear', {
                 method: 'POST',
-                // headers: { 'Content-Type': 'multipart/form-data'},
                 body: form
             })
             if (res2.status === 201) {
-                window.location.href = '/productos';
+                window.location.href = '/admin/productos';
             }
         }
     });
