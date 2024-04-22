@@ -64,112 +64,29 @@
 
     <!--- Main --->
     <main class="main">
-        <!--- inicio --->
-        <section class="section inicio" id="inicio">
-            <div class="home__container container grid">
-                <img src="auxiliar/camion3.png" alt="image" class="home__img">
-                <div class="home__data">
-                    <h1 class="home__title">
-                        TRACTO MAQUINARIA <br>
-                        <span>VARIEDAD</span> PARA <br>
-                        TU NEGOCIO <br>
-                    </h1>
-                    <p class="home__description">
-                        Ofrecemos una amplia gama de tractomaquinaria
-                        para tus proyectos, con la mejor calidad y variedad.
-                    </p>
-                    <div class="home__buttons">
-                        <a href="/inventario" class="button">
-                            <span>
-                                <i class="ri-arrow-right-line"></i>
-                            </span>
-                            VER INVENTARIO
-                        </a>
-                        <a href="#" class="button__link">MAS DETALLES</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!--- informacion --->
-        <section class="section Informacion" id="informacion">
-            <div class="new__container container grid">
-                <div class="new__data">
-                    <h2 class="section__title">
-                        NUEVAS MÁQUINAS PARA <br> TU NEGOCIO
-                    </h2>
-                    <p class="new__description">
-                        La tienda ofrece maquinaria industrial de alta calidad y tecnología
-                        avanzada para diversos sectores. Expertos están disponibles para asesorar
-                        en la selección de equipos adecuados.                    </p>
-
-                </div>
-                <div class="new__content grid">
-                    <article class="new__card">
-                        <img src="auxiliar/camion3.png" alt="image" class="new__img">
-                        <h2 class="new__title">Gymnocalycium Cactus</h2>
-                    </article>
-
-                    <article class="new__card">
-                        <img src="auxiliar/camion4.png" alt="image" class="new__img">
-                        <h2 class="new__title">Lily Pad Succulent</h2>
-                    </article>
-
-                    <article class="new__card">
-                        <img src="auxiliar/camion2.png" alt="image" class="new__img">
-                        <h2 class="new__title">Rebutia Cactus</h2>
-                    </article>
-                </div>
-
-            </div>
-        </section>
-
-        <!--- tienda --->
+        <!-- Producto  -->
         <section class="section tienda" id="tienda">
             <h2 class="section__title">
-                CATEGORIAS
+                Detalles de producto
             </h2>
-            <div class="shop__container container grid">
-                <article class="shop__card">
-                    <img src="auxiliar/gruas2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Montacargas<br>y Gruas </h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
+            <div class="product">
+                <div class="images">
+                    <div class="focus__image">
+                        <img src="{{ uploadsURL }}/{{ product.images[0].url}}" id="focus-img" alt="Imagen del producto">
+                    </div>
+                    <div class="mini__images">
+                        {% for img in product.images %}
+                            <img data-image="{{ loop.index }}" onclick="changeImage(this)" src="{{ uploadsURL }}/{{ img.url }}" alt="Imagen del producto" />
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="product__info">
+                    <h3 class="product__title">{{ product.name }}</h3>
+                    <h5 class="product__subtitle" style="margin-bottom: 10px;">${{ product.price }}</h5>
+                    <p class="product__desc">{{ product.description }}</p>
+                    <p class="product__desc"><b>Categoria:</b> {{ product.category.name }}</p>
 
-                <article class="shop__card">
-                    <img src="auxiliar/cajaseca2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Caja Secas y <br> Refrigeradas</h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/camion2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Camiones <br>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/camabaja2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Camabajas y<br> Plataformas</h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/maquinaria2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Maquinaria <br> Pesada</h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
+                </div>
             </div>
         </section>
         <!--- empresa --->
@@ -291,7 +208,7 @@
                         </li>
 
                         <li>
-                            <a href="/inventario" class="footer__link">Inventario</a>
+                            <a href="#" class="footer__link">Inventario</a>
                         </li>
 
                         <li>
@@ -350,5 +267,12 @@
     <script src="/javascripts/cliente/paginas/scrollreveal.min.js"></script>
 
     <script src="/javascripts/cliente/script.js"></script> <!-- Vinculamos archivo js-->
+    <script>
+        function changeImage(element) {
+            const imgId = element.getAttribute('data-image')
+            const image = document.getElementById('focus-img')
+            image.src = element.getAttribute('src')
+        }
+    </script>
 </body>
 </html>

@@ -16,11 +16,11 @@ router.get('/categoria/:name', async function(req, res, next) {
   if (nombre === '' || nombre === undefined)
     productos = await getProducts();
   else
-    productos = await getProductsOfCategory(nombre);
+    productos = await getProductsOfCategory(Number(nombre));
   if (productos.length > 0)
     res.status(201).send(productos);
   else
-    res.status(400).send();
+    res.status(400).send([]);
 });
 
 router.get('/agregar', async function(req, res, next) {

@@ -874,7 +874,55 @@ img {
   }
 }
 
+/* ========================================= */
+.product{
+  display: grid;
+  grid-template-columns: 45% 40%;
+  justify-content: center;
+  /* align-items: center; */
+  margin: 10px auto;
+  gap: 40px;
+}
 
+.product__title{
+  font-size: 3rem;
+  font-weight: var(--font-bold);
+  color: var(--white-color);
+}
+
+.product__subtitle{
+  font-size: 2rem;
+  font-weight: var(--font-bold);
+  color: var(--white-color);
+}
+
+.product__desc{
+  font-size: 1.2rem;
+}
+.mini__images{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.mini__images > img{
+  border-radius: 10px;
+  width: 100px;
+  height: 80px;
+}
+.focus__image{
+  width: 100%;
+}
+
+.focus__image > img{
+  max-height: 400px;
+  height: auto;
+  border-radius: 20px;
+  width: max-content;
+  width: -moz-max-content;
+}
 
 
 
