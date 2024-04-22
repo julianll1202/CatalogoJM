@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% set title = 'Agregar Producto' %}
+{% set title = 'Editar Producto' %}
 
 {% block content %}
   <!--begin::Subheader-->
@@ -18,12 +18,12 @@
   <!--end::Subheader-->
   <!--begin::Entry-->
   <div class="row">
-    <div class="col-lg-8 ml-10">
+    <div class="col-md-6 ml-10">
         <div class="card card-custom card-stretch gutter-b">
             <!--begin::Header-->
             <div class="card-header border-0 py-5">
                 <h3 class="card-title align-items-start flex-column">
-                    <span class="card-label font-weight-bolder text-dark">Agregar producto</span>
+                    <span class="card-label font-weight-bolder text-dark">Editar producto</span>
                 </h3>
             </div>
             <!--end::Header-->
@@ -32,23 +32,23 @@
                 <div class="card-body py-0">
                     <div class="form-group">
                         <label>Nombre <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Ingresa el nombre">
+                        <input type="text" name="name" value="{{ product.name }}" id="name" class="form-control" placeholder="Ingresa el nombre">
                     </div>
                     <div class="form-group">
                         <label>Precio<span class="text-danger">*</span></label>
-                        <input type="number" name="price" id="price" class="form-control" placeholder="Ingresa el precio">
+                        <input type="number" name="price" value={{ product.price }} id="price" class="form-control" placeholder="Ingresa el precio">
                     </div>
                     <div class="form-group">
                         <label for="exampleSelect1">Categoría <span class="text-danger">*</span></label>
                         <select class="form-control" name="categoryId" id="category">
                             {% for cat in categories %}
-                            <option value={{ cat.id }} {{ "selected" if cat.id === product.categoryId }}>{{ cat.name }}</option>
+                                <option value={{ cat.id }} {{ "selected" if cat.id === product.categoryId }}>{{ cat.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleTextarea">Descripción<span class="text-danger">*</span></label>
-                        <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                        <textarea class="form-control" name="description" id="description" rows="3">{{ product.description }}</textarea>
                     </div>
                     <div class="form-group row">
                         <input type="file" id="file-input" accept="image/png, image/jpeg" onchange="preview()" multiple>
@@ -58,10 +58,15 @@
                     </div>
                     <p id="num-of-files">No Files Chosen</p>
                     <div class="form-group row">
-                        <div id="images"></div>
+                        <div id="images">
+                            {% for img in product.images %}
+                                <figure>
+                                    <img class="uploaded" alt="{{ img.url }}" src="{{ uploadsURL}}/{{ img.url }}" />
+                                </figure>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <script src="/javascripts/imageUpload.js"></script>
-                    <button type="submit" id="sendBtn" class="btn btn-primary mb-10 w-140px font-size-lg">Crear</button>
+                    <button type="submit" id="sendBtn" class="btn btn-primary mb-10 w-140px font-size-lg">Actualizar</button>
                 </div>
             </form>
             <!--end::Body-->
@@ -69,52 +74,55 @@
 
     </div>
   </div>
+  <script src="imageUpload.js"></script>
   <script>
     const f = document.getElementById("form");
-    let fileInput = document.getElementById("file-input");
-    let imageContainer = document.getElementById("images");
-    let numOfFiles = document.getElementById("num-of-files");
     const name = document.getElementById('name');
     const description = document.getElementById('description');
     const price = document.getElementById('price');
     const category = document.getElementById('category');
     const sendBtn = document.getElementById('sendBtn');
+    let fileInput = document.getElementById("file-input");
+    let imageContainer = document.getElementById("images");
+    let numOfFiles = document.getElementById("num-of-files");
+
     f.addEventListener('submit', function(e) {
         e.preventDefault();
     })
 
     sendBtn.addEventListener('click', async () => {
-        const form = new FormData()
-        const res = await fetch('/admin/productos/crear', {
-            method: 'POST',
+        const form = new FormData(f)
+        console.log(form.get('name'));
+        const res = await fetch('/admin/productos/actualizar', {
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
+                id: "{{ product.id}}",
                 name: name.value,
                 price: price.value,
                 description: description.value,
                 categoryId: category.value
             })
         })
-        if (res.status === 201) {
-            const prod = await res.json()
-            form.append('prodId', prod.id)
+        if (res.status === 200) {
+            form.append('prodId', "{{ product.id }}")
             const files = fileInput.files
             if (files.length != 0) {
                 for (const single_file of files) {
                     form.append('image', single_file)
                 }
-            }
-            console.log(res)
-            const res2 = await fetch('/admin/imagenes/crear', {
-                method: 'POST',
-                body: form
-            })
-            if (res2.status === 201) {
+                const res2 = await fetch('/admin/imagenes/actualizar', {
+                    method: 'PUT',
+                    body: form
+                })
+                if (res2.status === 200) {
+
+                }
+            } else {
                 window.location.href = '/admin/productos';
             }
         }
     });
-
 
     function preview(){
         imageContainer.innerHTML = "";
@@ -136,7 +144,6 @@
             reader.readAsDataURL(i);
         }
     }
-
   </script>
   <!--end::Entry-->
 {% endblock %}

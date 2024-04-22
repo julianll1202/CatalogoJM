@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Empresa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.css"  type="text/css">
+    <!-- Vinculamos archivo remixicon-->
+    <link href="/stylesheets/cliente/style.css" rel="stylesheet" type="text/css"><!-- Vinculamos archivo css-->
+</head>
+
+<body>
+    <!-- Encabezado --->
+    <header class="header" id="header">
+        <nav class="nav container">
+            <a href="#" class="nav__logo">
+                <img src="auxiliar/Logo.jpg" alt="Logo">X Empresa
+            </a>
+
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="#inicio" class="nav__link active-link">Inicio</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#informacion" class="nav__link">Informacion</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#tienda" class="nav__link">Tienda</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#empresa" class="nav__link">Nuestra Empresa</a>
+                    </li>
+
+                    <li class="nav__item">
+                        <a href="#contacto" class="nav__link">Contacto</a>
+                    </li>
+
+                </ul>
+
+                <!--- Boton de Cerrar --->
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-fill"></i>
+                </div>
+
+            </div>
+
+            </div>
+            <div class="nav__actions">
+                <i class="ri-whatsapp-line"></i>
+                <i class="ri-phone-line"></i>
+
+                <!--- Boton Presionar --->
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+        </nav>
+    </header>
+
+    <!--- Main --->
+    <main class="main">
+        <!-- Catalogo -->
+        <section class="section tienda" id="tienda">
+            <h2 class="section__title">
+                CATALOGO
+            </h2>
+            <div class="shop__container container cat__list">
+                {% for cat in categorias %}
+                    {% if cat.id === categoriaSelect %}
+                        <button class="shop__badge_lg" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
+                    {% else %}
+                        <button class="shop__badge_lg shop__badge_unselected" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="shop__container container grid" id="catalogo">
+                {% for prod in products %}
+                    <a href="/inventario/producto/{{ prod.id}}">
+                        <article class="shop__card">
+                            <img src="{{ uploadsURL }}/{{ prod.images[0].url }}" alt="image" class="shop__img card__img">
+                            <h3 class="shop__title">{{ prod.name }}</h3>
+                            <h5 class="shop__subtitle" style="margin-bottom: 10px;">${{ prod.price }}</h5>
+                            <button class="shop__button">
+                                <i class="ri-eye-fill"></i>
+                            </button>
+                            <span class="shop__badge">{{ prod.category.name }}</span>
+                        </article>
+                    </a>
+                {% endfor %}
+            </div>
+        </section>
+        <!--- empresa --->
+        <section class="section empresa" id="empresa">
+            <h2 class="section__title">
+                RAZONES PARA ESCOGERNOS
+            </h2>
+            <div class="care__container container grid">
+                <img src="auxiliar/imagen5.png" alt="image" class="care__img">
+                <ul class="care__list">
+                    <li class="care__item">
+                        <i class="ri-checkbox-fill"></i>
+                        <p>
+                            Seguridad y Confianza <br>
+                            Nuestra empresa se compromete a garantizar la seguridad
+                            y la confiabilidad en cada envío que realizamos.
+                        </p>
+                    </li>
+
+                    <li class="care__item">
+                        <i class="ri-checkbox-fill"></i>
+                        <p>
+                            Precios Competitivos y Transparencia <br>
+                            Creemos en la transparencia en los precios y ofrecemos tarifas competitivas sin costos ocultos.
+                        </p>
+                    </li>
+
+                    <li class="care__item">
+                        <i class="ri-checkbox-fill"></i>
+                        <p>
+                            Atención al Cliente Personalizada   <br>
+                             Nuestro equipo está disponible para resolver tus preguntas y ofrecer soluciones adaptadas a tus necesidades.
+                        </p>
+                    </li>
+
+                    <li class="care__item">
+                        <i class="ri-checkbox-fill"></i>
+                        <p>
+                            Eficiencia y Fiabilidad<br>
+                            Historial de entregas puntuales y exitosas, asegurando cumplimiento de plazos de entrega.
+                        </p>
+                    </li>
+
+                    <li class="care__item">
+                        <i class="ri-checkbox-fill"></i>
+                        <p>
+                            Compromiso Ambiental<br> Implementamos prácticas de transporte sostenibles y opciones ecológicas para clientes conscientes del medio ambiente.
+
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!--- contacto --->
+        <section class="section contact" id="contacto">
+            <h2 class="section__title">
+                ¿NECESITAS MAQUINARIA? <br> ¡CONTÁCTANOS!
+            </h2>
+
+            <div class="contact__container container grid">
+                <img src="auxiliar/camion4.png" alt="image" class="contact__img">
+
+                <div class="contact__content">
+                    <div>
+                        <h3 class="contact__title">Escribenos</h3>
+                        <div class="contact__social">
+                            <a href="https://api.whatsapp.com/send?phone=51123456789&text=Hello, more information!"
+                            class="_blank">
+                                <i class="ri-whatsapp-fill"></i>
+                            </a>
+
+                            <a href="https://m.me/bedimcode" class="_blank">
+                                <i class="ri-facebook-circle-fill"></i>
+                            </a>
+
+                            <a href="mailto:examplemail@correo.com" class="_blank">
+                                <i class="ri-mail-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="contact__title">Llámanos a estos números</h3>
+                        <address class="contact__info">
+                            +52-686-000-00-00 <br>
+                            +686-000-00-00
+                        </address>
+                    </div>
+                    <div>
+                        <h3 class="contact__title">Localización</h3>
+                        <address class="contact__info">
+                            Mexicali - Baja California - Mexico <br>
+                            Ejido Puebla #1111
+                        </address>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de pagina-->
+    <footer class="footer">
+        <div class="footer__container container grid">
+            <div>
+                <a href="#" class="footer__logo">
+                    <i class="ri-truck-line"></i>X Empresa
+                </a>
+                <p class="footer__description">
+                    "Más que maquinaria, soluciones para tu negocio."
+                </p>
+            </div>
+            <div class="footer__content grid">
+                <div>
+                    <h3 class="footer__title">COMPAÑIA</h3>
+                    <ul class="footer__links">
+                        <li>
+                            <a href="#" class="footer__link">Quienes Somos</a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="footer__link">Inventario</a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="footer__link">Preguntas Frecuentes</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="footer__title">INFORMACION</h3>
+                    <ul class="footer__links">
+                        <li>
+                            <a href="#" class="footer__link">Como Comenzar</a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="footer__link">Contáctanos</a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="footer__link">Privacidad</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="footer__title">REDES SOCIALES</h3>
+                    <div class="footer__social">
+                        <a href="https://www.facebook.com/" target="_blank" class="footer__social-link">
+                            <i class="ri-facebook-circle-fill"></i>
+                        </a>
+
+                        <a href="https://www.instagram.com/" target="_blank" class="footer__social-link">
+                            <i class="ri-instagram-fill"></i>
+                        </a>
+
+                        <a href="https://twitter.com/" target="_blank" class="footer__social-link">
+                            <i class="ri-twitter-x-line"></i>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <span class="footer__copy">
+           Copyright &#169; X Empresa, Derechos Reservados.
+        </span>
+    </footer>
+
+    <!-- ScrollUP-->
+    <a href="#" class="scrollup" id="scroll-up">
+        <i class="ri-arrow-up-fill"></i>
+    </a>
+
+    <!-- Scrollreveal-->
+    <script src="/javascripts/cliente/paginas/scrollreveal.min.js"></script>
+
+    <script src="/javascripts/cliente/script.js"></script> <!-- Vinculamos archivo js-->
+</body>
+<script>
+    async function sortProducts(element) {
+        const catId = element.getAttribute("data-name")
+        window.location.href = `/inventario/${catId}`
+    }
+</script>
+</html>

@@ -2,10 +2,8 @@ import nunjucks from 'nunjucks'
 import path from 'path'
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import indexRouter from './routes/index.js'
-import usersRouter from './routes/users.js'
-import productsRouter from './routes/products.js'
-import categoriesRouter from './routes/categories.js'
+import clientRouter from './routes/client.js'
+import adminRouter from './routes/admin.js'
 var app = express();
 
 nunjucks.configure('views', {
@@ -21,10 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/productos', productsRouter);
-app.use('/categorias', categoriesRouter);
+app.use('/admin', adminRouter);
+app.use('/', clientRouter);
 
 
 

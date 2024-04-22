@@ -6,3 +6,30 @@ body {
 a {
   color: #00B7FF;
 }
+
+input[type="file"]{
+  display: none;
+}
+
+#images{
+  width: 90%;
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+figure{
+  width: 15%;
+}
+.uploaded{
+  max-width: 120px;
+  height: auto;
+  border-radius: 10px;
+}
+figcaption{
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}

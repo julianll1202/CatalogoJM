@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% set title = 'Agregar Producto' %}
+
+{% block content %}
+  <!--begin::Subheader-->
+  <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+      <!--begin::Info-->
+      <div class="d-flex align-items-center flex-wrap mr-2">
+        <!--begin::Page Title-->
+        <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Categorías</h5>
+        <!--end::Page Title-->
+      </div>
+      <!--end::Info-->
+    </div>
+  </div>
+  <!--end::Subheader-->
+  <!--begin::Entry-->
+  <div class="row">
+    <div class="col-lg-8 ml-10">
+        <div class="card card-custom card-stretch gutter-b">
+            <!--begin::Header-->
+            <div class="card-header border-0 py-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bolder text-dark">Agregar categoría</span>
+                </h3>
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <form id="form">
+                <div class="card-body py-0">
+                    <div class="form-group">
+                        <label>Nombre <span class="text-danger">*</span></label>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Ingresa el nombre">
+                    </div>
+                    <button type="submit" id="sendBtn" class="btn btn-primary mb-10 w-140px font-size-lg">Crear</button>
+                </div>
+            </form>
+            <!--end::Body-->
+        </div>
+
+    </div>
+  </div>
+  <script>
+    const f = document.getElementById("form");
+    const name = document.getElementById('name');
+    f.addEventListener('submit', function(e) {
+        e.preventDefault();
+    })
+
+    sendBtn.addEventListener('click', async () => {
+        const res = await fetch('/admin/categorias/crear', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: name.value,
+            })
+        })
+        if (res.status === 201) {
+            window.location.href = '/admin/categorias';
+        }
+    });
+
+
+  </script>
+  <!--end::Entry-->
+{% endblock %}
