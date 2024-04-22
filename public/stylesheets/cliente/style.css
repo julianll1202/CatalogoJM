@@ -914,14 +914,17 @@ img {
 }
 .focus__image{
   width: 100%;
+  max-height: 400px;
+  height: auto;
+  overflow: hidden;
 }
 
 .focus__image > img{
-  max-height: 400px;
-  height: auto;
   border-radius: 20px;
   width: max-content;
   width: -moz-max-content;
+  height: fit-content;
+  height: -moz-fit-content
 }
 
 
