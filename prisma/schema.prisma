@@ -27,8 +27,15 @@ model Category {
   id Int @id @default(autoincrement())
   name String
   products Product[]
+  class Class @default(CAMION)
 }
 
+enum Class {
+  CAMION
+  MAQUINARIA_PESADA
+  REMOLQUE
+  GRUA
+}
 model Image {
   id Int @id @default(autoincrement())
   url String

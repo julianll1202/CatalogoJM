@@ -14,6 +14,7 @@ export const getProducts = async () => {
                 category: {
                     select: {
                         name: true,
+                        class: true
                     }
                 },
                 images: {
@@ -58,6 +59,7 @@ export const getProductById = async (id) => {
     }
 }
 
+// ************** categories *************
 export const getProductsOfCategory = async (categoryName) => {
     try {
         const products = await prisma.product.findMany({
@@ -83,6 +85,21 @@ export const getProductsOfCategory = async (categoryName) => {
             }
         })
         return products
+    } catch (err) {
+        return []
+    }
+}
+
+// ************** classes *************
+export const getProductsOfClass = async (classNum) => {
+    try {
+        const products = await prisma.product.findMany({
+            where: {
+                category: {
+                    class: classNum
+                }
+            }
+        })
     } catch (err) {
         return []
     }
@@ -140,3 +157,4 @@ export const deleteProduct = async (id) => {
         return 'Product not deleted'
     }
 }
+

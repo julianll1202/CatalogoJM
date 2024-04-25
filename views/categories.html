@@ -48,6 +48,7 @@
                         <thead>
                             <tr class="text-left">
                                 <th class="pr-0" style="width: 50px">Nombre</th>
+                                <th style="min-width: 150px">Clase</th>
                                 <th style="min-width: 150px"># de Productos</th>
                                 <th class="pr-0 text-right" style="min-width: 150px">Acciones</th>
                             </tr>
@@ -59,8 +60,10 @@
                                     <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ cat.name }}</a>
                                 </td>
                                 <td>
+                                    <span class="label label-lg label-inline font-weight-bolder label-light-primary">{{ cat.class}}</span>
+                                </td>
+                                <td>
                                     <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cat._count.products }}</span>
-
                                 </td>
                                 <td class="pr-0 text-right">
                                     <a href="/admin/categorias/actualizar/{{ cat.id }}" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">

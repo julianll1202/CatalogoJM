@@ -34,6 +34,15 @@
                         <label>Nombre <span class="text-danger">*</span></label>
                         <input type="text" name="name" id="name" class="form-control" placeholder="Ingresa el nombre">
                     </div>
+                    <div class="form-group">
+                      <label for="exampleSelect1">Clase<span class="text-danger">*</span></label>
+                      <select class="form-control" name="class" id="class">
+                          <option value=1>Camión</option>
+                          <option value=2>Maquinaria Pesada</option>
+                          <option value=3>Remolque</option>
+                          <option value=4>Grua</option>
+                      </select>
+                  </div>
                     <button type="submit" id="sendBtn" class="btn btn-primary mb-10 w-140px font-size-lg">Crear</button>
                 </div>
             </form>
@@ -45,6 +54,7 @@
   <script>
     const f = document.getElementById("form");
     const name = document.getElementById('name');
+    const vehicleClass = document.getElementById('class');
     f.addEventListener('submit', function(e) {
         e.preventDefault();
     })
@@ -55,6 +65,7 @@
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({
                 name: name.value,
+                class: vehicleClass.value
             })
         })
         if (res.status === 201) {

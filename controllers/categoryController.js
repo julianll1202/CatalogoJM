@@ -1,4 +1,4 @@
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient, Class } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
@@ -8,6 +8,7 @@ export const getCategories = async () => {
             select: {
                 id: true,
                 name: true,
+                class: true,
                 _count: {
                     select: {
                         products: true,
@@ -37,13 +38,45 @@ export const getCategoryById = async (id) => {
 
 export const addCategory = async (catInfo) => {
     try {
-        const category = await prisma.category.create({
-            data: {
-                name: catInfo.name,
-            }
-        })
+        let category = {}
+        switch (catInfo.class) {
+            case 1:
+                category = await prisma.category.create({
+                    data: {
+                        name: catInfo.name,
+                        class: Class.CAMION
+                    }
+                })
+                break
+            case 2:
+                category = await prisma.category.create({
+                    data: {
+                        name: catInfo.name,
+                        class: Class.MAQUINARIA_PESADA
+                    }
+                })
+                break
+            case 3:
+                category = await prisma.category.create({
+                    data: {
+                        name: catInfo.name,
+                        class: Class.REMOLQUE
+                    }
+                })
+                break
+            case 4:
+                category = await prisma.category.create({
+                    data: {
+                        name: catInfo.name,
+                        class: Class.GRUA
+                    }
+                })
+                break
+        }
+
         return category
     } catch (err) {
+        console.log(err)
         return 'Category not created'
     }
 }
