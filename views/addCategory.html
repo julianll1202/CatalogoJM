@@ -72,10 +72,9 @@
                 class: vehicleClass.value
             })
         })
-        console.log(await res.json())
-        // if (res.status === 201) {
-        //     window.location.href = '/admin/categorias';
-        // }
+        if (res.status === 201) {
+            window.location.href = '/admin/categorias';
+        }
     });
 
 

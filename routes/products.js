@@ -2,16 +2,19 @@ var express = require('express');
 const { getProducts, addProduct, updateProduct, deleteProduct, getProductById, getProductsOfCategory } = require('../controllers/productController');
 const { getCategories } = require('../controllers/categoryController');
 const { authenticateToken } = require('../services/authentication');
+const { getUserById } = require('../controllers/userController');
 var router = express.Router();
 
 /* HTML Views */
-router.get('/', async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
+  const user = await getUserById(req.payload.userId)
+  console.log(user)
   const productos = await getProducts();
   const cats = await getCategories();
-  res.render('catalogue.html', { title: 'Productos', categories: cats,  uploadsURL: process.env.UPLOADED_IMAGES_URL, products: productos});
+  res.render('catalogue.html', { title: 'Productos', categories: cats,  uploadsURL: process.env.UPLOADED_IMAGES_URL, products: productos, usuario: user.userName});
 });
 
-router.get('/categoria/:name', async function(req, res, next) {
+router.get('/categoria/:name', authenticateToken, async function(req, res, next) {
   const nombre = req.params.name;
   let productos = []
   if (nombre === '' || nombre === undefined)
@@ -24,17 +27,19 @@ router.get('/categoria/:name', async function(req, res, next) {
     res.status(400).send([]);
 });
 
-router.get('/agregar', async function(req, res, next) {
+router.get('/agregar', authenticateToken, async function(req, res, next) {
+  const user = await getUserById(req.payload.userId)
   const cats = await getCategories();
-  res.render('addProduct.html', { title: 'Agregar producto', categories: cats });
+  res.render('addProduct.html', { title: 'Agregar producto', categories: cats, usuario: user.userName });
 });
 
-router.get('/actualizar/:id', async function(req, res, next) {
+router.get('/actualizar/:id', authenticateToken, async function(req, res, next) {
+  const user = await getUserById(req.payload.userId)
   const prodId = req.params.id;
   const prod = await getProductById(Number(prodId));
   const cats = await getCategories();
   console.log(prod);
-  res.render('editProduct.html', { title: 'Actualizar producto', uploadsURL: process.env.UPLOADED_IMAGES_URL, product: prod, categories: cats});
+  res.render('editProduct.html', { title: 'Actualizar producto', uploadsURL: process.env.UPLOADED_IMAGES_URL, usuario: user.userName, product: prod, categories: cats});
 });
 
 

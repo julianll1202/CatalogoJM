@@ -9,13 +9,14 @@ const jwt = require('jsonwebtoken');
 
 export async function authenticateToken(req, res, next) {
     const { authorization } = req.headers
-    if (!authorization) {
-        return res.status(400).send()
+    const accessToken = req.cookies['accessToken']
+    if (!authorization && !accessToken) {
+        return res.render('login.html')
     }
     try {
         const token = authorization.split(' ')[1]
         console.log(token)
-        const payload = jwt.verify(token, JWT_SECRET_KEY)
+        const payload = jwt.verify(accessToken, JWT_SECRET_KEY)
         console.log(payload)
         req.payload = payload
     } catch (err) {
@@ -23,7 +24,7 @@ export async function authenticateToken(req, res, next) {
         const refreshToken = req.cookies['refreshToken']
         if (!refreshToken){
             console.log('No refresh token')
-            return res.status(400).send()
+            return res.render('login.html')
         }
         try {
             const payload = jwt.verify(refreshToken, JWT_SECRET_KEY)
@@ -31,17 +32,17 @@ export async function authenticateToken(req, res, next) {
 
             console.log(savedRefreshToken)
             if (!savedRefreshToken || savedRefreshToken.revoked) {
-                return res.status(400).send()
+                return res.render('login.html')
             }
 
             const hashedToken = hashToken(refreshToken)
             if (hashedToken !== savedRefreshToken.hashedToken) {
-                return res.status(400).send()
+                return res.render('login.html')
             }
             console.log(payload.userId)
             const user = await getUserById(savedRefreshToken.userId)
             if (!user) {
-                return res.status(400).send()
+                return res.render('login.html')
             }
             console.log(user)
             const jti = randomUUID()
@@ -55,7 +56,7 @@ export async function authenticateToken(req, res, next) {
             req.payload = newPayload
         } catch (err) {
             console.error(err)
-            return res.status(400).send()
+            return res.render('login.html')
         }
     }
 
