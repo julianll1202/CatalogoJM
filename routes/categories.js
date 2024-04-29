@@ -1,5 +1,4 @@
 var express = require('express');
-const { getProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 const { addCategory, updateCategory, deleteCategory, getCategories, getCategoryById } = require('../controllers/categoryController');
 var router = express.Router();
 

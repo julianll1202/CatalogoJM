@@ -39,7 +39,7 @@ export const getCategoryById = async (id) => {
 export const addCategory = async (catInfo) => {
     try {
         let category = {}
-        switch (catInfo.class) {
+        switch (Number(catInfo.class)) {
             case 1:
                 category = await prisma.category.create({
                     data: {
@@ -73,7 +73,7 @@ export const addCategory = async (catInfo) => {
                 })
                 break
         }
-
+        console.log(category)
         return category
     } catch (err) {
         console.log(err)

@@ -151,11 +151,19 @@
     async function deleteProd(element) {
         const prodId = element.getAttribute("data-codigo")
         console.log(prodId);
-        await fetch(`admin/productos/eliminar/${prodId}`, {
+        const res = await fetch(`/admin/productos/eliminar/${prodId}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${document.cookie.toString().split(';')[0].split('=')[1]}`
+            },
         });
-        window.location.reload();
+        console.log(res.status)
+        if (res.status !== 200) {
+            window.location.href = '/admin/usuarios/login';
+        } else {
+            window.location.reload();
+        }
     }
   </script>
 {% endblock %}

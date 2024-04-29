@@ -1,6 +1,7 @@
 var express = require('express');
 const { getProducts, addProduct, updateProduct, deleteProduct, getProductById, getProductsOfCategory } = require('../controllers/productController');
 const { getCategories } = require('../controllers/categoryController');
+const { authenticateToken } = require('../services/authentication');
 var router = express.Router();
 
 /* HTML Views */
@@ -38,7 +39,7 @@ router.get('/actualizar/:id', async function(req, res, next) {
 
 
 // CRUD operations
-router.post('/crear', async function(req, res, next) {
+router.post('/crear', authenticateToken, async function(req, res, next) {
   const prodInfo = req.body
   console.log(prodInfo)
   const product = await addProduct(prodInfo)
@@ -48,7 +49,7 @@ router.post('/crear', async function(req, res, next) {
     res.status(400).send();
   });
 
-router.put('/actualizar', async function(req, res, next) {
+router.put('/actualizar', authenticateToken, async function(req, res, next) {
   const prodInfo = req.body
   const product = await updateProduct(prodInfo)
   if (product !== 'Product not updated')
@@ -57,7 +58,7 @@ router.put('/actualizar', async function(req, res, next) {
     res.status(400).send();
 });
 
-router.delete('/eliminar/:id', async function(req, res, next) {
+router.delete('/eliminar/:id', authenticateToken, async function(req, res, next) {
   const prodId = req.params.id
   const product = await deleteProduct(Number(prodId))
   if (product !== 'Product not deleted')

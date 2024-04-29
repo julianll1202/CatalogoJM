@@ -55,22 +55,27 @@
     const f = document.getElementById("form");
     const name = document.getElementById('name');
     const vehicleClass = document.getElementById('class');
+    const sendBtn = document.getElementById('sendBtn');
     f.addEventListener('submit', function(e) {
         e.preventDefault();
     })
 
     sendBtn.addEventListener('click', async () => {
+      console.log(document.cookie)
         const res = await fetch('/admin/categorias/crear', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
                 name: name.value,
                 class: vehicleClass.value
             })
         })
-        if (res.status === 201) {
-            window.location.href = '/admin/categorias';
-        }
+        console.log(await res.json())
+        // if (res.status === 201) {
+        //     window.location.href = '/admin/categorias';
+        // }
     });
 
 
