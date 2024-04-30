@@ -28,13 +28,11 @@ export const login = async (user) => {
     }
 }
 
-export const logout = async (req, res) => {
-    const { userId } = req.body
+export const logout = async (id) => {
     try {
-        await revokeTokens(userId)
+        await revokeTokens(id)
         return { response: 'Logged out successfully' }
     } catch (err) {
-        res.status(401)
-        throw new Error({ response: 'Unauthorized' })
+        return { response: 'Unauthorized' }
     }
 }

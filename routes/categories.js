@@ -9,19 +9,19 @@ router.get('/', authenticateToken, async function(req, res, next) {
   const user = await getUserById(req.payload.userId)
   const categories = await getCategories();
   console.log(categories)
-  res.render('categories.html', { title: 'Productos', usuario: user.userName, categories: categories });
+  res.render('categories.html', { title: 'Productos', usuario: user, categories: categories });
 });
 
 router.get('/agregar', authenticateToken, async function(req, res, next) {
   const user = await getUserById(req.payload.userId)
-  res.render('addCategory.html', { title: 'Agregar categoría', usuario: user.userName });
+  res.render('addCategory.html', { title: 'Agregar categoría', usuario: user });
 });
 
 router.get('/actualizar/:id', authenticateToken, async function(req, res, next) {
   const user = await getUserById(req.payload.userId)
   const catId = req.params.id;
   const cat = await getCategoryById(Number(catId));
-  res.render('editCategory.html', { title: 'Actualizar categoría', category: cat, usuario: user.userName});
+  res.render('editCategory.html', { title: 'Actualizar categoría', category: cat, usuario: user});
 });
 
 

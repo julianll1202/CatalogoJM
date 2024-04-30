@@ -1,6 +1,6 @@
 var express = require('express');
 const { addUser } = require('../controllers/userController');
-const { login } = require('../controllers/authController');
+const { login, logout } = require('../controllers/authController');
 var router = express.Router();
 
 /* GET users listing. */
@@ -33,4 +33,13 @@ router.post('/login', async function(req, res, next) {
     return res.status(403).send(user);
   }
 });
+
+router.post('/logout', async function(req, res) {
+  const userId = req.body.userId;
+  const mssg = await logout(Number(userId));
+  if (mssg.response !== 'Unauthorized')
+    return res.status(200).send()
+  else
+    return res.status(401).send()
+})
 module.exports = router;

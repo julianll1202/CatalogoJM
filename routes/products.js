@@ -11,7 +11,7 @@ router.get('/', authenticateToken, async function(req, res, next) {
   console.log(user)
   const productos = await getProducts();
   const cats = await getCategories();
-  res.render('catalogue.html', { title: 'Productos', categories: cats,  uploadsURL: process.env.UPLOADED_IMAGES_URL, products: productos, usuario: user.userName});
+  res.render('catalogue.html', { title: 'Productos', categories: cats,  uploadsURL: process.env.UPLOADED_IMAGES_URL, products: productos, usuario: user});
 });
 
 router.get('/categoria/:name', authenticateToken, async function(req, res, next) {
@@ -30,7 +30,7 @@ router.get('/categoria/:name', authenticateToken, async function(req, res, next)
 router.get('/agregar', authenticateToken, async function(req, res, next) {
   const user = await getUserById(req.payload.userId)
   const cats = await getCategories();
-  res.render('addProduct.html', { title: 'Agregar producto', categories: cats, usuario: user.userName });
+  res.render('addProduct.html', { title: 'Agregar producto', categories: cats, usuario: user });
 });
 
 router.get('/actualizar/:id', authenticateToken, async function(req, res, next) {
@@ -39,7 +39,7 @@ router.get('/actualizar/:id', authenticateToken, async function(req, res, next) 
   const prod = await getProductById(Number(prodId));
   const cats = await getCategories();
   console.log(prod);
-  res.render('editProduct.html', { title: 'Actualizar producto', uploadsURL: process.env.UPLOADED_IMAGES_URL, usuario: user.userName, product: prod, categories: cats});
+  res.render('editProduct.html', { title: 'Actualizar producto', uploadsURL: process.env.UPLOADED_IMAGES_URL, usuario: user, product: prod, categories: cats});
 });
 
 

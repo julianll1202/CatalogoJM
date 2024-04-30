@@ -6,7 +6,7 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', authenticateToken, async function(req, res, next) {
   const user = await getUserById(req.payload.userId)
-  res.render('home.html', { title: 'Inicio', usuario: user.userName });
+  res.render('home.html', { title: 'Inicio', usuario: user });
 });
 
 
