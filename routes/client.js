@@ -1,13 +1,14 @@
 var express = require('express');
-const { getProducts, getProductsOfCategory, getProductById } = require('../controllers/productController');
+const { getProducts, getProductsOfCategory, getProductById, getLatestProducts } = require('../controllers/productController');
 const { getCategories } = require('../controllers/categoryController');
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   const cats = await getCategories();
+  const latestProducts = await getLatestProducts();
   const productos = await getProducts();
-  res.render('cliente/index.html', { title: 'Inicio',uploadsURL: process.env.UPLOADED_IMAGES_URL, productos: productos, categorias: cats});
+  res.render('cliente/index.html', { title: 'Inicio',uploadsURL: process.env.UPLOADED_IMAGES_URL, recientes: latestProducts, productos: productos, categorias: cats});
 });
 /* GET inventario page. */
 router.get('/inventario/:id?', async function(req, res, next) {

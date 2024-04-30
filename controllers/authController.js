@@ -12,13 +12,12 @@ const saltRounds = 10;
 
 export const login = async (user) => {
     const userDB = await findUserByName(user.userName);
-    console.log(user)
+    console.log(userDB)
     if (userDB !== 'User not found') {
         const result = bcrypt.compare(user.password, userDB.password);
-        console.log(result);
         if (result) {
             const jti = randomUUID()
-            const { accessToken, refreshToken } = generateTokens(user, jti)
+            const { accessToken, refreshToken } =  generateTokens(userDB, jti)
             await addRefreshTokenToWhitelist({ jti, refreshToken: hashToken(refreshToken), userId: userDB.id })
             return { response: 'Authorized entry', user: userDB, accessToken: accessToken, refreshToken: refreshToken }
         } else {

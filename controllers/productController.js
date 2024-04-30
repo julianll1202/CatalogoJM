@@ -30,6 +30,33 @@ export const getProducts = async () => {
     }
 }
 
+export const getLatestProducts = async () => {
+    try {
+        const products = await prisma.product.findMany({
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                category: {
+                    select: {
+                        name: true,
+                        class: true
+                    }
+                },
+                images: {
+                    select: {
+                        url: true
+                    }
+                }
+            },
+            take: 5,
+        })
+        return products
+    } catch (err) {
+        return []
+    }
+}
+
 export const getProductById = async (id) => {
     try {
         const product = await prisma.product.findUnique({

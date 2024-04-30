@@ -44,7 +44,15 @@
 
                 </div>
                 <div class="new__content grid">
+                    {% for prod in recientes %}
                     <article class="new__card">
+                        <img src="{{ uploadsURL }}/{{ prod.images[0].url }}" alt="image" class="shop__img card__img" style="width: 90%; height: 100px;">
+                        <h3 class="new__title">{{ prod.name }}</h3>
+                    </article>
+                    <!-- <a href="/inventario/producto/{{ prod.id}}"> -->
+                    <!-- </a> -->
+                {% endfor %}
+                    <!-- <article class="new__card">
                         <img src="auxiliar/camion3.png" alt="image" class="new__img">
                         <h2 class="new__title">Gymnocalycium Cactus</h2>
                     </article>
@@ -57,7 +65,7 @@
                     <article class="new__card">
                         <img src="auxiliar/camion2.png" alt="image" class="new__img">
                         <h2 class="new__title">Rebutia Cactus</h2>
-                    </article>
+                    </article> -->
                 </div>
 
             </div>
@@ -66,49 +74,22 @@
         <!--- tienda --->
         <section class="section tienda" id="tienda">
             <h2 class="section__title">
-                CATEGORIAS
+                RECIENTES
             </h2>
-            <div class="shop__container container grid">
-                <article class="shop__card">
-                    <img src="auxiliar/gruas2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Montacargas<br>y Gruas </h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/cajaseca2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Caja Secas y <br> Refrigeradas</h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/camion2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Camiones <br>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/camabaja2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Camabajas y<br> Plataformas</h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
-                <article class="shop__card">
-                    <img src="auxiliar/maquinaria2.png" alt="image" class="shop__img">
-                    <h3 class="shop__title">Maquinaria <br> Pesada</h3>
-                    <button class="shop__button">
-                        <i class="ri-eye-fill"></i>
-                    </button>
-                </article>
-
+            <div class="shop__container container grid" id="catalogo">
+                {% for prod in recientes %}
+                    <a href="/inventario/producto/{{ prod.id}}">
+                        <article class="shop__card">
+                            <img src="{{ uploadsURL }}/{{ prod.images[0].url }}" alt="image" class="shop__img card__img">
+                            <h3 class="shop__title">{{ prod.name }}</h3>
+                            <h5 class="shop__subtitle" style="margin-bottom: 10px;">${{ prod.price }}</h5>
+                            <button class="shop__button">
+                                <i class="ri-eye-fill"></i>
+                            </button>
+                            <span class="shop__badge">{{ prod.category.name }}</span>
+                        </article>
+                    </a>
+                {% endfor %}
             </div>
         </section>
         <!--- empresa --->
