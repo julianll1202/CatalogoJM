@@ -11,25 +11,23 @@ router.get('/', async function(req, res, next) {
   res.render('cliente/index.html', { title: 'Inicio',uploadsURL: process.env.UPLOADED_IMAGES_URL, recientes: latestProducts, productos: productos, categorias: cats});
 });
 /* GET inventario page. */
-router.get('/inventario/:class?/:catId?', async function(req, res, next) {
+router.get('/inventario/:clase?/:categoria?', async function(req, res, next) {
   const vClasses = await getClasses();
-  // console.log(vClasses);
-  const vClass = req.params.class || false;
-  const id = req.params.catId;
+  console.log(req.query);
+  const vClass = req.query.clase || false;
+  const id = req.query.categoria || false;
   let productos = [];
   let cats = [];
-  console.log(vClass)
   if (!vClass)
     productos = await getProducts();
   else {
     cats = await getCategoriesOfClass(vClass);
-    if (id === undefined) {
+    if (!id) {
       productos = await getProductsOfClass(vClass);
-    }
-    else
+    } else {
       productos = await getProductsOfCategory(Number(id));
+    }
   }
-  // console.log(cats)
   res.render('cliente/inventory.html', { title: 'Inventario',uploadsURL: process.env.UPLOADED_IMAGES_URL, products: productos, categorias: cats, categoriaSelect: Number(id), tipoSelect:vClass, tipos: Object.values(vClasses) });
 });
 

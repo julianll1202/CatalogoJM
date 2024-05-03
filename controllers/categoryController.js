@@ -23,7 +23,6 @@ export const getCategories = async () => {
     }
 }
 export const getCategoriesOfClass = async (vClass) => {
-    console.log(vClass)
     try {
         let categories = []
         switch (vClass) {
@@ -41,7 +40,7 @@ export const getCategoriesOfClass = async (vClass) => {
             case 'MAQUINARIA_PESADA':
                 categories = await prisma.category.findMany({
                     where: {
-                        class: Class.CAMION
+                        class: Class.MAQUINARIA_PESADA
                     },
                     select: {
                         id: true,
@@ -52,7 +51,7 @@ export const getCategoriesOfClass = async (vClass) => {
             case 'REMOLQUE':
                 categories = await prisma.category.findMany({
                     where: {
-                        class: Class.CAMION
+                        class: Class.REMOLQUE
                     },
                     select: {
                         id: true,
@@ -63,7 +62,7 @@ export const getCategoriesOfClass = async (vClass) => {
             case 'GRUA':
                 categories = await prisma.category.findMany({
                     where: {
-                        class: Class.CAMION
+                        class: Class.GRUA
                     },
                     select: {
                         id: true,
@@ -72,6 +71,7 @@ export const getCategoriesOfClass = async (vClass) => {
                 })
                 break
         }
+        return categories
     } catch (err) {
         console.error(err)
         return []

@@ -8,22 +8,18 @@
             <h2 class="section__title">
                 CATALOGO
             </h2>
-            <div class="shop__container container cat__list">
+            <div class="shop__container container cat__list" style="gap: 10px;">
                 {% if tipoSelect %}
                     {% for cat in categorias %}
                         {% if cat.id === categoriaSelect %}
-                        <button class="shop__badge_lg" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
+                        <a class="shop__badge_lg" href="inventario?clase={{ tipoSelect}}&categoria={{ cat.id }}">{{ cat.name }}</a>
                         {% else %}
-                        <button class="shop__badge_lg shop__badge_unselected" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
+                        <a class="shop__badge_lg shop__badge_unselected" href="inventario?clase={{ tipoSelect}}&categoria={{ cat.id }}">{{ cat.name }}</a>
                         {% endif %}
                     {% endfor %}
                 {% else %}
                     {% for c in tipos %}
-                        {% if cat.id === categoriaSelect %}
-                            <button class="shop__badge_lg" id="cat-btn-{{ c }}" data-name="{{ c }}" onclick="sortCategories(this)">{{ c }}</button>
-                        {% else %}
-                            <button class="shop__badge_lg shop__badge_unselected" id="cat-btn-{{ c }}" data-name="{{ c }}" onclick="sortCategories(this)">{{ c }}</button>
-                        {% endif %}
+                        <a class="shop__badge_lg shop__badge_unselected" href="inventario?clase={{ c }}">{{ c }}</a>
                     {% endfor %}
                 {% endif %}
             </div>
