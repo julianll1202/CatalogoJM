@@ -49,7 +49,7 @@ export const getLatestProducts = async () => {
                     }
                 }
             },
-            take: 5,
+            take: 3,
         })
         return products
     } catch (err) {

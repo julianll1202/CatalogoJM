@@ -19,7 +19,7 @@
                     {% endfor %}
                 {% else %}
                     {% for c in tipos %}
-                        <a class="shop__badge_lg shop__badge_unselected" href="inventario?clase={{ c }}">{{ c }}</a>
+                        <a class="shop__badge_lg shop__badge_unselected" href="inventario?clase={{ c.id }}">{{ c.text }}</a>
                     {% endfor %}
                 {% endif %}
             </div>
@@ -30,9 +30,6 @@
                             <img src="{{ uploadsURL }}/{{ prod.images[0].url }}" alt="image" class="shop__img card__img">
                             <h3 class="shop__title">{{ prod.name }}</h3>
                             <h5 class="shop__subtitle" style="margin-bottom: 10px;">${{ prod.price }}</h5>
-                            <button class="shop__button">
-                                <i class="ri-eye-fill"></i>
-                            </button>
                             <span class="shop__badge">{{ prod.category.name }}</span>
                         </article>
                     </a>
