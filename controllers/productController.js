@@ -1,6 +1,6 @@
 import { deleteProductImages } from './imageController'
 
-const { PrismaClient } = require('@prisma/client')
+const { PrismaClient, Class } = require('@prisma/client')
 
 const prisma = new PrismaClient()
 
@@ -14,6 +14,7 @@ export const getProducts = async () => {
                 category: {
                     select: {
                         name: true,
+                        class: true
                     }
                 },
                 images: {
@@ -22,6 +23,33 @@ export const getProducts = async () => {
                     }
                 }
             }
+        })
+        return products
+    } catch (err) {
+        return []
+    }
+}
+
+export const getLatestProducts = async () => {
+    try {
+        const products = await prisma.product.findMany({
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                category: {
+                    select: {
+                        name: true,
+                        class: true
+                    }
+                },
+                images: {
+                    select: {
+                        url: true
+                    }
+                }
+            },
+            take: 3,
         })
         return products
     } catch (err) {
@@ -58,18 +86,19 @@ export const getProductById = async (id) => {
     }
 }
 
-export const getProductsOfCategory = async (categoryName) => {
+// ************** categories *************
+export const getProductsOfCategory = async (categoryId) => {
     try {
+        console.log(categoryId)
         const products = await prisma.product.findMany({
             where: {
-                category: {
-                    id: categoryName
-                }
+                categoryId: categoryId
             },
             select: {
                 id: true,
                 name: true,
                 price: true,
+                description: true,
                 category: {
                     select: {
                         name: true,
@@ -82,6 +111,120 @@ export const getProductsOfCategory = async (categoryName) => {
                 }
             }
         })
+        console.log(products)
+        return products
+    } catch (err) {
+        console.error(err)
+        return []
+    }
+}
+
+// ************** classes *************
+export const getProductsOfClass = async (vClass) => {
+    try {
+        let products = []
+        switch (vClass) {
+            case 'CAMION':
+                products = await prisma.product.findMany({
+                    where: {
+                        category: {
+                            class: Class.CAMION
+                        }
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        price: true,
+                        description: true,
+                        category: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        images: {
+                            select: {
+                                url: true
+                            }
+                        }
+                    }
+                })
+                break
+            case 'MAQUINARIA_PESADA':
+                products = await prisma.product.findMany({
+                    where: {
+                        category: {
+                            class: Class.MAQUINARIA_PESADA
+                        }
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        price: true,
+                        description: true,
+                        category: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        images: {
+                            select: {
+                                url: true
+                            }
+                        }
+                    }
+                })
+                break
+            case 'REMOLQUE':
+                products = await prisma.category.findMany({
+                    where: {
+                        category: {
+                            class: Class.REMOLQUE
+                        }
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        price: true,
+                        description: true,
+                        category: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        images: {
+                            select: {
+                                url: true
+                            }
+                        }
+                    }
+                })
+                break
+            case 'GRUA':
+                products = await prisma.category.findMany({
+                    where: {
+                        category: {
+                            class: Class.GRUA
+                        }
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        price: true,
+                        description: true,
+                        category: {
+                            select: {
+                                name: true,
+                            }
+                        },
+                        images: {
+                            select: {
+                                url: true
+                            }
+                        }
+                    }
+                })
+                break
+        }
         return products
     } catch (err) {
         return []
@@ -140,3 +283,4 @@ export const deleteProduct = async (id) => {
         return 'Product not deleted'
     }
 }
+

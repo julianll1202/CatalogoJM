@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Bootstrap 4 HTML, React, Angular 10 & VueJS Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://1.envato.market/EA4JP
+Renew Support: https://1.envato.market/EA4JP
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en">
+	<!--begin::Head-->
+	<head><base href="">
+		<meta charset="utf-8" />
+		<title>CatalogoJM</title>
+		<meta name="description" content="Metronic admin dashboard live demo. Check out all the features of the admin panel. A large number of settings, additional services and widgets." />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<link rel="canonical" href="https://keenthemes.com/metronic" />
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+		<!--end::Fonts-->
+		<!--end::Page Vendors Styles-->
+		<!--begin::Global Theme Styles(used by all pages)-->
+		<link href="/javascripts/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/style.bundle.css" rel="stylesheet" type="text/css" />
+		<!--end::Global Theme Styles-->
+		<link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />
+		<!--begin::Layout Themes(used by all pages)-->
+		<link href="/stylesheets/layout/header/base/light.css" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/layout/header/menu/light.css" rel="stylesheet" type="text/css" />
+		<link href="/javascripts/layout/brand/dark.css" rel="stylesheet" type="text/css" />
+		<link href="/stylesheets/layout/aside/dark.css" rel="stylesheet" type="text/css" />
+		<!--end::Layout Themes-->
+		<link rel="shortcut icon" href="assets/media/logos/favicon.ico" />
+	</head>
+	<!--end::Head-->
+	<!--begin::Body-->
+	<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
+		<!--begin::Main-->
+		<div class="d-flex flex-column flex-root">
+			<!--begin::Login-->
+			<div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">
+				<div class="d-flex flex-center flex-row-fluid bgi-size-cover bgi-position-top bgi-no-repeat" style="background-image: url('assets/media/bg/bg-3.jpg');">
+					<div class="login-form text-center p-7 position-relative overflow-hidden">
+						<!--begin::Login Header-->
+						<div class="d-flex flex-center mb-15">
+							<a href="#">
+								<img src="assets/media/logos/logo-letter-13.png" class="max-h-75px" alt="" />
+							</a>
+						</div>
+						<!--end::Login Header-->
+						<!--begin::Login Sign in form-->
+						<div class="login-signin">
+							<div class="mb-20">
+								<h3>Iniciar Sesión</h3>
+								<div class="text-muted font-weight-bold">Ingrese sus credenciales de acceso al panel de administrador</div>
+							</div>
+							<form class="form" id="form">
+								<div class="form-group mb-5">
+									<input class="form-control h-auto form-control-solid py-4 px-8" type="text" placeholder="Usuario" id="username" name="username" autocomplete="off" />
+								</div>
+								<div class="form-group mb-5">
+									<input class="form-control h-auto form-control-solid py-4 px-8" type="password" placeholder="Password" id="password" name="password" />
+								</div>
+								<!-- <div class="form-group d-flex flex-wrap justify-content-between align-items-center">
+									<div class="checkbox-inline">
+										<label class="checkbox m-0 text-muted">
+										<input type="checkbox" name="remember" />
+										<span></span>Remember me</label>
+									</div>
+									<a href="javascript:;" id="kt_login_forgot" class="text-muted text-hover-primary">Forget Password ?</a>
+								</div> -->
+								<button id="sendBtn" class="btn btn-primary font-weight-bold px-9 py-4 my-3 mx-4">Sign In</button>
+							</form>
+							<!-- <div class="mt-10">
+								<span class="opacity-70 mr-4">Don't have an account yet?</span>
+								<a href="javascript:;" id="kt_login_signup" class="text-muted text-hover-primary font-weight-bold">Sign Up!</a>
+							</div> -->
+						</div>
+						<!--end::Login Sign in form-->
+					</div>
+				</div>
+			</div>
+			<!--end::Login-->
+		</div>
+		<!--end::Main-->
+		<!-- end::User Panel-->
+		<!--begin::Global Theme Bundle(used by all pages)-->
+		<script src="/javascripts/plugins/global/plugins.bundle.js"></script>
+		<script src="/javascripts/scripts.bundle.js"></script>
+		<!--end::Global Theme Bundle-->
+        <script>
+            const f = document.getElementById("form");
+            const name = document.getElementById('username');
+            const password = document.getElementById('password');
+            const sendBtn = document.getElementById('sendBtn');
+
+            f.addEventListener('submit', function(e) {
+                e.preventDefault();
+            })
+
+            sendBtn.addEventListener('click', async () => {
+                const res = await fetch('/admin/usuarios/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        userName: name.value,
+                        password: password.value
+                    })
+                })
+                if (res.status === 200) {
+                    window.location.href = '/admin/';
+                }
+            });
+        </script>
+	</body>
+	<!--end::Body-->
+</html>

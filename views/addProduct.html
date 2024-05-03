@@ -87,7 +87,10 @@
         const form = new FormData()
         const res = await fetch('/admin/productos/crear', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${document.cookie.toString().split(';')[0].split('=')[1]}`
+            },
             body: JSON.stringify({
                 name: name.value,
                 price: price.value,
@@ -111,6 +114,10 @@
             })
             if (res2.status === 201) {
                 window.location.href = '/admin/productos';
+            }
+        } else {
+            if (res.status === 400) {
+                window.location.href = '/admin/usuarios/login';
             }
         }
     });

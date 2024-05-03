@@ -1,35 +1,39 @@
 var express = require('express');
-const { getProducts, addProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 const { addCategory, updateCategory, deleteCategory, getCategories, getCategoryById } = require('../controllers/categoryController');
+const { getUserById } = require('../controllers/userController');
+const { authenticateToken } = require('../services/authentication');
 var router = express.Router();
 
 /* HTML Views */
-router.get('/', async function(req, res, next) {
+router.get('/', authenticateToken, async function(req, res, next) {
+  const user = await getUserById(req.payload.userId)
   const categories = await getCategories();
   console.log(categories)
-  res.render('categories.html', { title: 'Productos', categories: categories });
+  res.render('categories.html', { title: 'Productos', usuario: user, categories: categories });
 });
 
-router.get('/agregar', function(req, res, next) {
-  res.render('addCategory.html', { title: 'Agregar categoría' });
+router.get('/agregar', authenticateToken, async function(req, res, next) {
+  const user = await getUserById(req.payload.userId)
+  res.render('addCategory.html', { title: 'Agregar categoría', usuario: user });
 });
 
-router.get('/actualizar/:id', async function(req, res, next) {
+router.get('/actualizar/:id', authenticateToken, async function(req, res, next) {
+  const user = await getUserById(req.payload.userId)
   const catId = req.params.id;
   const cat = await getCategoryById(Number(catId));
-  res.render('editCategory.html', { title: 'Actualizar categoría', category: cat});
+  res.render('editCategory.html', { title: 'Actualizar categoría', category: cat, usuario: user});
 });
 
 
 // CRUD operations
-router.post('/crear', async function(req, res, next) {
+router.post('/crear', authenticateToken, async function(req, res, next) {
   const catInfo = req.body
   const category = await addCategory(catInfo)
   if (category !== 'Category not created')
     res.status(201).send(category);
 });
 
-router.put('/actualizar', async function(req, res, next) {
+router.put('/actualizar', authenticateToken, async function(req, res, next) {
   const catInfo = req.body
   const category = await updateCategory(catInfo)
   if (category !== 'Category not updated')
@@ -38,7 +42,7 @@ router.put('/actualizar', async function(req, res, next) {
     res.status(400).send();
 });
 
-router.delete('/eliminar/:id', async function(req, res, next) {
+router.delete('/eliminar/:id', authenticateToken, async function(req, res, next) {
   const catId = req.params.id
   const category = await deleteCategory(Number(catId))
   if (category !== 'Category not deleted')

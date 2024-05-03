@@ -8,14 +8,20 @@
             <h2 class="section__title">
                 CATALOGO
             </h2>
-            <div class="shop__container container cat__list">
-                {% for cat in categorias %}
-                    {% if cat.id === categoriaSelect %}
-                        <button class="shop__badge_lg" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
-                    {% else %}
-                        <button class="shop__badge_lg shop__badge_unselected" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
-                    {% endif %}
-                {% endfor %}
+            <div class="shop__container container cat__list" style="gap: 10px;">
+                {% if tipoSelect %}
+                    {% for cat in categorias %}
+                        {% if cat.id === categoriaSelect %}
+                        <a class="shop__badge_lg" href="inventario?clase={{ tipoSelect}}&categoria={{ cat.id }}">{{ cat.name }}</a>
+                        {% else %}
+                        <a class="shop__badge_lg shop__badge_unselected" href="inventario?clase={{ tipoSelect}}&categoria={{ cat.id }}">{{ cat.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for c in tipos %}
+                        <a class="shop__badge_lg shop__badge_unselected" href="inventario?clase={{ c.id }}">{{ c.text }}</a>
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="shop__container container grid" id="catalogo">
                 {% for prod in products %}
@@ -24,9 +30,6 @@
                             <img src="{{ uploadsURL }}/{{ prod.images[0].url }}" alt="image" class="shop__img card__img">
                             <h3 class="shop__title">{{ prod.name }}</h3>
                             <h5 class="shop__subtitle" style="margin-bottom: 10px;">${{ prod.price }}</h5>
-                            <button class="shop__button">
-                                <i class="ri-eye-fill"></i>
-                            </button>
                             <span class="shop__badge">{{ prod.category.name }}</span>
                         </article>
                     </a>
@@ -36,6 +39,12 @@
 <script>
     async function sortProducts(element) {
         const catId = element.getAttribute("data-name")
+        window.location.href = `/inventario/${catId}`
+    }
+
+    async function sortCategories(element) {
+        const catId = element.getAttribute("data-name")
+        console.log(window.location.toString())
         window.location.href = `/inventario/${catId}`
     }
 </script>

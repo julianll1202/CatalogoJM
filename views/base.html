@@ -178,6 +178,22 @@ License: You must have a valid license purchased only from themeforest(the above
 							<!--end::Header Menu Wrapper-->
 							<!--begin::Topbar-->
 							<div class="topbar">
+								<div class="topbar-item">
+									<div class="dropdown">
+										<button data-offset="25,5" class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<!-- <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle"> -->
+											<span class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">Bienvenido,</span>
+											<span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">{{ usuario.userName }}</span>
+											<span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
+												<span class="symbol-label font-size-h5 font-weight-bold">{{ usuario.userName.toUpperCase().charAt(0) }}</span>
+											</span>
+											<!-- </div> -->
+										</button>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<a class="dropdown-item" data-toggle="modal" data-target="#modalLogout" href="#"><i class="flaticon-logout icon-md btn-icon-dark mr-1"></i> Cerrar sesion</a>
+										</div>
+									</div>
+								</div>
 							</div>
 							<!--end::Topbar-->
 						</div>
@@ -186,6 +202,26 @@ License: You must have a valid license purchased only from themeforest(the above
 					<!--end::Header-->
 					<!--begin::Content-->
 					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+						<!-- Modal-->
+						<div class="modal fade" id="modalLogout" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">¿Desea cerrar su sesión?</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<i aria-hidden="true" class="ki ki-close"></i>
+										</button>
+									</div>
+									<div class="modal-body">
+										¿Esta seguro de que desea cerrar sesión?
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancelar</button>
+										<button type="button" data-codigo="{{ usuario.id }}" onclick="logoutUser(this)" class="btn btn-warning font-weight-bold"><i class="flaticon-logout icon-md btn-icon-white"></i> Cerrar sesión</button>
+									</div>
+								</div>
+							</div>
+						</div>
 						{% block content %}{% endblock %}
 					</div>
 					<!--end::Content-->
@@ -476,14 +512,28 @@ License: You must have a valid license purchased only from themeforest(the above
 			<!--end::Content-->
 		</div>
 		<!-- end::User Panel-->
-		<script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
-		<!--begin::Global Config(global config for global JS scripts)-->
-		<script>var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1400 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#3699FF", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#E4E6EF", "dark": "#181C32" }, "light": { "white": "#ffffff", "primary": "#E1F0FF", "secondary": "#EBEDF3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#3F4254", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#EBEDF3", "gray-300": "#E4E6EF", "gray-400": "#D1D3E0", "gray-500": "#B5B5C3", "gray-600": "#7E8299", "gray-700": "#5E6278", "gray-800": "#3F4254", "gray-900": "#181C32" } }, "font-family": "Poppins" };</script>
-		<!--end::Global Config-->
 		<!--begin::Global Theme Bundle(used by all pages)-->
 		<script src="/javascripts/plugins/global/plugins.bundle.js"></script>
 		<script src="/javascripts/scripts.bundle.js"></script>
 		<!--end::Global Theme Bundle-->
+		<script>
+			async function logoutUser (element) {
+				const userId = element.getAttribute("data-codigo")
+				console.log(userId)
+				const res = await fetch('/admin/usuarios/logout', {
+					method: 'POST',
+					headers: {
+					'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						userId: userId
+					})
+        		})
+				if (res.status === 200) {
+					window.location.reload()
+				}
+			};
+		</script>
 	</body>
 	<!--end::Body-->
 </html>

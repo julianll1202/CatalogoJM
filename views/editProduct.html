@@ -92,10 +92,13 @@
 
     sendBtn.addEventListener('click', async () => {
         const form = new FormData(f)
-        console.log(form.get('name'));
+        console.log(document.cookie.toString());
         const res = await fetch('/admin/productos/actualizar', {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${document.cookie.toString().split(';')[0].split('=')[1]}`
+            },
             body: JSON.stringify({
                 id: "{{ product.id}}",
                 name: name.value,
@@ -116,7 +119,7 @@
                     body: form
                 })
                 if (res2.status === 200) {
-
+                    window.location.href = '/admin/productos';
                 }
             } else {
                 window.location.href = '/admin/productos';
