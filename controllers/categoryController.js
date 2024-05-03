@@ -22,7 +22,64 @@ export const getCategories = async () => {
         return []
     }
 }
-
+export const getCategoriesOfClass = async (vClass) => {
+    console.log(vClass)
+    try {
+        let categories = []
+        switch (vClass) {
+            case 'CAMION':
+                categories = await prisma.category.findMany({
+                    where: {
+                        class: Class.CAMION
+                    },
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                })
+                break
+            case 'MAQUINARIA_PESADA':
+                categories = await prisma.category.findMany({
+                    where: {
+                        class: Class.CAMION
+                    },
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                })
+                break
+            case 'REMOLQUE':
+                categories = await prisma.category.findMany({
+                    where: {
+                        class: Class.CAMION
+                    },
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                })
+                break
+            case 'GRUA':
+                categories = await prisma.category.findMany({
+                    where: {
+                        class: Class.CAMION
+                    },
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                })
+                break
+        }
+    } catch (err) {
+        console.error(err)
+        return []
+    }
+}
+export const getClasses = async () => {
+    return await Class;
+}
 export const getCategoryById = async (id) => {
     try {
         const category = await prisma.category.findUnique({

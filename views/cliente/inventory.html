@@ -9,13 +9,23 @@
                 CATALOGO
             </h2>
             <div class="shop__container container cat__list">
-                {% for cat in categorias %}
-                    {% if cat.id === categoriaSelect %}
+                {% if tipoSelect %}
+                    {% for cat in categorias %}
+                        {% if cat.id === categoriaSelect %}
                         <button class="shop__badge_lg" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
-                    {% else %}
+                        {% else %}
                         <button class="shop__badge_lg shop__badge_unselected" id="cat-btn-{{ cat.id }}" data-name="{{ cat.id }}" onclick="sortProducts(this)">{{ cat.name }}</button>
-                    {% endif %}
-                {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for c in tipos %}
+                        {% if cat.id === categoriaSelect %}
+                            <button class="shop__badge_lg" id="cat-btn-{{ c }}" data-name="{{ c }}" onclick="sortCategories(this)">{{ c }}</button>
+                        {% else %}
+                            <button class="shop__badge_lg shop__badge_unselected" id="cat-btn-{{ c }}" data-name="{{ c }}" onclick="sortCategories(this)">{{ c }}</button>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             </div>
             <div class="shop__container container grid" id="catalogo">
                 {% for prod in products %}
@@ -36,6 +46,12 @@
 <script>
     async function sortProducts(element) {
         const catId = element.getAttribute("data-name")
+        window.location.href = `/inventario/${catId}`
+    }
+
+    async function sortCategories(element) {
+        const catId = element.getAttribute("data-name")
+        console.log(window.location.toString())
         window.location.href = `/inventario/${catId}`
     }
 </script>
